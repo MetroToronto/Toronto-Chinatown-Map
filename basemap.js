@@ -11,7 +11,7 @@ const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 
 // CARTO Positron basemap
 const basemap = L.tileLayer(
-    'https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=' + cartoApiKey,
+    'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=' + cartoApiKey,
     {
         maxZoom: 20,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attribution/">CARTO</a>'
