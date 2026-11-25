@@ -1,6 +1,6 @@
 
 /* ========================================
-   FULL-SCREEN MAP
+   PAGE CONFIGURATION
    ======================================== */
 
 html, body {
@@ -11,47 +11,12 @@ html, body {
     overflow: hidden;
 }
 
-#map {
-    position: absolute;
-    inset: 0;
-    background: #e8e8e8;
-}
-
-
 /* ========================================
-   ROTATING MAP INTRODUCTION
+   MAP CONTAINER
    ======================================== */
 
-#map-intro {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    background: #e8e8e8;
-    cursor: pointer;
-}
-
-#rotating-map {
-    position: absolute;
-    inset: 0;
+#map {
     width: 100%;
     height: 100%;
-}
-
-
-/* ========================================
-   FINISHING ROTATION
-   ======================================== */
-
-#map-intro.stopping {
-    cursor: wait;
-}
-
-
-/* ========================================
-   KEYBOARD ACCESSIBILITY
-   ======================================== */
-
-#map-intro:focus-visible {
-    outline: 3px solid #843d34;
-    outline-offset: -3px;
+    background-color: #e8e8e8;
 }
