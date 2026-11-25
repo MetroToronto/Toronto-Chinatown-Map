@@ -1,21 +1,33 @@
 
-// Initial view: Spadina Avenue and Dundas Street West
-const map = L.map('map', {
-    center: [43.6531, -79.3983],
-    zoom: 16,
-    zoomControl: true
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toronto Chinatown Map</title>
 
-// CARTO API key
-const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-// CARTO Positron basemap
-const basemap = L.tileLayer(
-    'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=' + cartoApiKey,
-    {
-        maxZoom: 20,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attribution/">CARTO</a>'
-    }
-).addTo(map);
+    <!-- MapLibre CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
 
-// Add future GeoJSON layers and markers below this line.
+    <!-- Custom map styling -->
+    <link rel="stylesheet" href="mapstyle.css">
+</head>
+<body>
+    <main id="map" aria-label="Interactive map of Toronto Chinatown"></main>
+
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- MapLibre -->
+    <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+
+    <!-- MapLibre Leaflet plugin -->
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
+
+    <!-- Basemap -->
+    <script src="basemap.js"></script>
+</body>
+</html>
