@@ -11,6 +11,3 @@ html, body {
     height: 100%;
     background: #e8e8e8;
 }
-.leaflet-tile-pane {
-    filter: contrast(115%) saturate(125%);
-}
