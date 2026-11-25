@@ -4,13 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Toronto Chinatown Map</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-    <!-- MapLibre CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="mapstyle.css">
@@ -18,29 +16,13 @@
 
 <body>
 
-    <!-- Main interactive map -->
-    <div id="map" inert></div>
+    <!-- Map container -->
+    <div id="map"></div>
 
-    <!-- Rotating introductory map -->
-    <div id="map-intro"
-         role="button"
-         tabindex="0"
-         aria-label="Stop map rotation and explore the map">
-
-        <div id="rotating-map"></div>
-
-    </div>
-
-    <!-- Leaflet -->
+    <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- MapLibre -->
-    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-
-    <!-- MapLibre Leaflet Plugin -->
-    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.20/leaflet-maplibre-gl.js"></script>
-
-    <!-- Basemap -->
+    <!-- Basemap JavaScript -->
     <script src="basemap.js"></script>
 
 </body>
