@@ -1,33 +1,23 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toronto Chinatown Map</title>
+import * as L from 'leaflet';
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+import { maplibreGL } from 'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.mjs';
 
-    <!-- MapLibre CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+// Initial map view
+const map = L.map('map', {
+    center: [43.6531, -79.3983],
+    zoom: 16,
+    minZoom: 2,
+    maxZoom: 20,
+    zoomControl: true
+});
 
-    <!-- Custom map styling -->
-    <link rel="stylesheet" href="mapstyle.css">
-</head>
-<body>
-    <main id="map" aria-label="Interactive map of Toronto Chinatown"></main>
+// OpenStreetMap Shortbread basemap
+const basemap = maplibreGL({
+    style: 'https://vector.openstreetmap.org/styles/shortbread/colorful.json',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
-    <!-- Leaflet -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- MapLibre -->
-    <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
-
-    <!-- MapLibre Leaflet plugin -->
-    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.3/leaflet-maplibre-gl.js"></script>
-
-    <!-- Basemap -->
-    <script src="basemap.js"></script>
-</body>
-</html>
+// Make Leaflet accessible to future scripts
+window.L = L;
+window.map = map;
