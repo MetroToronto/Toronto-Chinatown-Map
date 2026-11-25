@@ -13,7 +13,7 @@ const map = L.map('map', {
 // CARTO API KEY
 // ========================================
 
-const cartoApiKey = 'YOUR_API_KEY';
+const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 
 // ========================================
 // CARTO POSITRON BASEMAP
