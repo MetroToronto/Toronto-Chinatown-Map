@@ -6,15 +6,35 @@
     box-shadow: 0 2px 5px #0005; cursor: pointer;
 }
 .chinatown-stop-marker:hover { background: #b33b3b; }
-/* Leaflet popup */
-.chinatown-popup .leaflet-popup-content-wrapper { border-radius: 10px; padding: 0; overflow: hidden; }
-.chinatown-popup .leaflet-popup-content { width: min(760px, calc(100vw - 90px)) !important; margin: 20px; }
-.chinatown-popup .leaflet-popup-close-button { font-size: 25px !important; top: 8px !important; right: 8px !important; }
+/* Centered modal, independent of the map */
+.stop-dialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(1000px, calc(100vw - 40px));
+    max-width: none;
+    max-height: calc(100dvh - 40px);
+    box-sizing: border-box;
+    padding: 30px;
+    border: 0;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 12px 50px #0005;
+    overflow: auto;
+}
+.stop-dialog::backdrop { background: rgba(0, 0, 0, .32); }
+.stop-close {
+    position: absolute; top: 10px; right: 12px;
+    border: 0; background: transparent; color: #555;
+    font-size: 32px; line-height: 1; cursor: pointer;
+    width: 40px; height: 40px;
+}
+.stop-close:hover { color: #111; }
 .stop-popup { font-family: Arial, sans-serif; color: #252525; width: 100%; }
 .stop-popup-header { padding: 0 20px 15px 0; margin-bottom: 18px; border-bottom: 1px solid #ccc; }
-.stop-title { font-size: 25px; font-weight: bold; line-height: 1.2; margin: 0 0 6px; }
-.stop-address { font-size: 15px; color: #666; }
-.stop-popup-body { display: flex; align-items: flex-start; gap: 20px; }
+.stop-title { font-size: 29px; font-weight: bold; line-height: 1.2; margin: 0 0 6px; }
+.stop-address { font-size: 17px; color: #666; }
+.stop-popup-body { display: flex; align-items: flex-start; gap: 26px; }
 /* Landscape 4:3 photo frame */
 .stop-photo {
     position: relative; flex: 0 0 48%; aspect-ratio: 4 / 3; box-sizing: border-box;
@@ -37,11 +57,12 @@
 .photo-arrow-right::before { border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 17px solid white; }
 .photo-arrow:hover:not(:disabled)::before { opacity: .65; }
 .photo-arrow:disabled { cursor: default; opacity: .55; }
-.stop-text { flex: 1; min-width: 0; font-size: 15px; line-height: 1.6; text-align: left; white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 600px) {
+.stop-text { flex: 1; min-width: 0; font-size: 18px; line-height: 1.6; text-align: left; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 650px) {
+    .stop-dialog { padding: 20px; width: calc(100vw - 24px); }
     .stop-popup-body { flex-direction: column; }
     .stop-photo { flex: none; width: 100%; max-width: 400px; align-self: center; }
     .stop-title { font-size: 20px; }
     .stop-address { font-size: 13px; }
-    .stop-text { font-size: 14px; }
+    .stop-text { font-size: 16px; }
 }
