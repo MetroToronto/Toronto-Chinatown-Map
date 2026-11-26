@@ -27,6 +27,7 @@ fetch('./geojson-data/Chinatown_StopLocations.geojson')
                 const popup = document.createElement('div');
                 popup.className = 'stop-popup';
                 popup.innerHTML = `
+                    <button type="button" class="stop-close" aria-label="Close stop information">&times;</button>
                     <div class="stop-popup-header">
                         <h2 class="stop-title"></h2>
                         <div class="stop-address"></div>
@@ -75,10 +76,30 @@ fetch('./geojson-data/Chinatown_StopLocations.geojson')
                 L.DomEvent.disableClickPropagation(popup);
                 L.DomEvent.disableScrollPropagation(popup);
                 updatePhoto();
-                layer.bindPopup(popup, {
-                    className: 'chinatown-popup', maxWidth: 800, minWidth: 0,
-                    maxHeight: Math.max(150, window.innerHeight - 100),
-                    closeButton: true, autoPan: true, autoPanPadding: [25, 25]
+                layer.on('click', () => {
+                    const dialog = document.createElement('dialog');
+                    dialog.className = 'stop-dialog';
+                    dialog.setAttribute('aria-label', p.StopName || 'Chinatown Stop');
+                    dialog.appendChild(popup);
+                    document.body.appendChild(dialog);
+                    const closeButton = popup.querySelector('.stop-close');
+                    closeButton.onclick = () => dialog.close();
+                    dialog.addEventListener('click', e => {
+                        if (e.target === dialog) {
+                            const r = dialog.getBoundingClientRect();
+                            if (e.clientX < r.left || e.clientX > r.right ||
+                                e.clientY < r.top || e.clientY > r.bottom) dialog.close();
+                        }
+                    });
+                    dialog.addEventListener('close', () => {
+                        dialog.remove();
+                        const marker = layer.getElement();
+                        if (marker) marker.focus();
+                    }, { once: true });
+                    current = 0;
+                    updatePhoto();
+                    dialog.showModal();
+                    closeButton.focus();
                 });
             }
         }).addTo(map);
