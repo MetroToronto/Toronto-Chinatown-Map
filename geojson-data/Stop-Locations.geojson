@@ -1,0 +1,155 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 1,
+                "StopName": "Spadina Avenue & Dundas Street West",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3983,
+                    43.6531
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 2,
+                "StopName": "Spadina Avenue & College Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.4001,
+                    43.658
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 3,
+                "StopName": "Spadina Avenue & Queen Street West",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3962,
+                    43.6487
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 4,
+                "StopName": "Dundas Street West & Huron Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3961,
+                    43.6536
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 5,
+                "StopName": "Dundas Street West & Beverley Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3938,
+                    43.6541
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 6,
+                "StopName": "Dundas Street West & Augusta Avenue",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.4005,
+                    43.6526
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 7,
+                "StopName": "Augusta Avenue & Baldwin Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.4011,
+                    43.6546
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 8,
+                "StopName": "Spadina Avenue & Baldwin Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3991,
+                    43.6553
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 9,
+                "StopName": "Spadina Avenue & Sullivan Street",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3975,
+                    43.6512
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "StopID": 10,
+                "StopName": "Grange Park",
+                "StopDescription": "Chinatown"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3931,
+                    43.6521
+                ]
+            }
+        }
+    ]
+}
