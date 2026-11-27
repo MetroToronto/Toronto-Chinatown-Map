@@ -103,3 +103,6 @@ html, body {
     #start-tour-button { font-size: 12px; }
 }
 @media (max-width: 350px) { .tour-intro-panel { width: min(240px, calc(100% - 150px)); } }
+
+/* Hide the coordinate and zoom-level debugging boxes on all devices. */
+.map-info-control { display: none !important; }
