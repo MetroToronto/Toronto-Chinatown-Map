@@ -1,7 +1,9 @@
 // Guided tour: layer visibility, map views, and navigation.
 (() => {
     const HOME = MAP_HOME_CENTER;
-    const OVERVIEW = [43.658185, -79.378195];
+    const OVERVIEW = [43.658485, -79.378695];
+    // Stage 3 is the only stage with a separate device-specific overview zoom.
+    const STAGE3_ZOOM = MAP_IS_MOBILE ? 12.5 : 14.5;
     const BASE = 'west', CORE = 'core', WARD = 'ward', FIRST = 'first', EAST = 'east', KENSINGTON = 'kensington';
     const files = {
         west: ['Chinatown_Boundary.geojson'],
@@ -28,7 +30,7 @@
     const stages = {
         1: {bounds:[[BASE,dashed],[CORE,{}]], stops:[], mask:true},
         2: {bounds:[[WARD,{}],[FIRST,heavy]], stops:[1], popup:1},
-        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill,weight:12}]], stops:[], view:OVERVIEW, zoom:MAP_STAGE3_ZOOM, labels:true},
+        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill,weight:12}]], stops:[], view:OVERVIEW, zoom:STAGE3_ZOOM, labels:true},
         4: {bounds:ordinary, stops:remaining, popup:2},
         5: {bounds:ordinary, stops:remaining, popup:3},
         6: {bounds:[[BASE,dashed],[KENSINGTON,{}]], stops:remaining, popup:4},
@@ -256,6 +258,8 @@
         status.textContent=`Stage ${number} of 11`;
         showBoundaries(config.bounds);
         showTourStops(config.stops);
+        // Ensure Leaflet cannot clamp the overview to an older minimum zoom.
+        if (number === 3) map.setMinZoom(Math.min(STAGE3_ZOOM, MAP_HOME_ZOOM));
         map.setView(config.view || HOME,config.zoom || MAP_HOME_ZOOM,{animate:false});
         if(config.mask) showMask();
         if(config.labels) makeLabels(config.bounds);
@@ -267,7 +271,7 @@
     }
     function startTour() {
         if(stage) return;
-        tourExplorationLock = suspendMapExploration({tour:true});
+        tourExplorationLock = suspendMapExploration({tour:true,minZoom:STAGE3_ZOOM});
         closeActiveStopModal({restoreDefaultView:false,silent:true});
         savedInteractions=disableMapInteractions();
         document.body.classList.add('tour-running');
