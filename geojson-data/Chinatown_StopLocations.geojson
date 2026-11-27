@@ -5,14 +5,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 1,
-                "StopName": "Spadina Avenue & Dundas Street West",
-                "StopAddress": "Chinatown"
+                "StopName": "New Toronto City Hall",
+                "StopAddress": "100 Queen Street West"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.3983,
-                    43.6531
+                    -79.38393747459111,
+                    43.65349572702461
                 ]
             }
         },
@@ -20,14 +20,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 2,
-                "StopName": "Spadina Avenue & College Street",
-                "StopAddress": "Chinatown"
+                "StopName": "Clan Associations (Fu-Kien Society of Ontario)",
+                "StopAddress": "171 Augusta Avenue"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.4001,
-                    43.658
+                    -79.401282,
+                    43.6532
                 ]
             }
         },
@@ -35,14 +35,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 3,
-                "StopName": "Spadina Avenue & Queen Street West",
-                "StopAddress": "Chinatown"
+                "StopName": "Greengrocers (Hua Sheng Supermarket)",
+                "StopAddress": "299 Spadina Ave"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.3962,
-                    43.6487
+                    -79.397935,
+                    43.653524
                 ]
             }
         },
@@ -50,14 +50,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 4,
-                "StopName": "Dundas Street West & Huron Street",
-                "StopAddress": "Chinatown"
+                "StopName": "Kensington Market",
+                "StopAddress": "54-56 Kensington Ave (KMCLT)"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.3961,
-                    43.6536
+                    -79.400666,
+                    43.654148
                 ]
             }
         },
@@ -65,14 +65,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 5,
-                "StopName": "Dundas Street West & Beverley Street",
-                "StopAddress": "Chinatown"
+                "StopName": "Chinatown Centre",
+                "StopAddress": "222 Spadina Ave"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.3938,
-                    43.6541
+                    -79.397936,
+                    43.651211
                 ]
             }
         },
@@ -80,14 +80,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 6,
-                "StopName": "Dundas Street West & Augusta Avenue",
-                "StopAddress": "Chinatown"
+                "StopName": "TCLT's Newly Acquired Buildings",
+                "StopAddress": "81 Huron Street"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.4005,
-                    43.6526
+                    -79.396143,
+                    43.653798
                 ]
             }
         },
@@ -95,59 +95,14 @@
             "type": "Feature",
             "properties": {
                 "StopID": 7,
-                "StopName": "Augusta Avenue & Baldwin Street",
-                "StopAddress": "Chinatown"
+                "StopName": "Hainan Association of Ontario",
+                "StopAddress": "217 Augusta Ave"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.4011,
-                    43.6546
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "StopID": 8,
-                "StopName": "Spadina Avenue & Baldwin Street",
-                "StopAddress": "Chinatown"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -79.3991,
-                    43.6553
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "StopID": 9,
-                "StopName": "Spadina Avenue & Sullivan Street",
-                "StopAddress": "Chinatown"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -79.3975,
-                    43.6512
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "StopID": 10,
-                "StopName": "Grange Park",
-                "StopAddress": "Chinatown"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -79.3931,
-                    43.6521
+                    -79.401695,
+                    43.654198
                 ]
             }
         }
