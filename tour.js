@@ -20,18 +20,19 @@
     const baseStyle = {color:'#922b2b', weight:8, opacity:1, dashArray:null, lineCap:'round', lineJoin:'round', fill:false, fillOpacity:0};
     const dashed = {dashArray:'14 12'};
     const heavy = {weight:11};
+    const extraHeavy = {weight:16, color:'#6e1919'};
     const lightFill = {fill:true, fillColor:'#e16a6a', fillOpacity:0.32};
-    const darkFill = {fill:true, fillColor:'#922b2b', fillOpacity:0.60};
+    const darkFill = {fill:true, fillColor:'#761b1b', fillOpacity:0.72};
     const ordinary = [[BASE,dashed],[CORE,{}]];
     const remaining = [2,3,4,5,6,7];
     const stages = {
         1: {bounds:[[BASE,dashed],[CORE,{}]], stops:[], mask:true},
         2: {bounds:[[WARD,{}],[FIRST,heavy]], stops:[1], popup:1},
-        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...heavy,...darkFill}]], stops:[], view:OVERVIEW, zoom:15, labels:true},
+        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill}]], stops:[], view:OVERVIEW, zoom:13, labels:true},
         4: {bounds:ordinary, stops:remaining, popup:2},
         5: {bounds:ordinary, stops:remaining, popup:3},
         6: {bounds:[[BASE,dashed],[KENSINGTON,{}]], stops:remaining, popup:4},
-        7: {bounds:[[BASE,lightFill],[KENSINGTON,darkFill]], stops:[], labels:true},
+        7: {bounds:[[BASE,{...lightFill,...dashed}],[KENSINGTON,{...extraHeavy,...darkFill}]], stops:[], labels:true},
         8: {bounds:[[BASE,dashed]], stops:remaining, popup:5},
         9: {bounds:[[BASE,dashed]], stops:remaining, popup:6},
         10:{bounds:[[BASE,dashed]], stops:remaining, popup:7}
@@ -121,11 +122,11 @@
         clearLabels(); labelLayer.hidden = false;
         // First Chinatown and Kensington get priority in the collision layout.
         const sorted = [...specs].sort((a,b) => Number([FIRST,KENSINGTON].includes(b[0])) - Number([FIRST,KENSINGTON].includes(a[0])));
-        for (const [key] of sorted) {
+        for (const [key, style] of sorted) {
             const layer = layers.get(key); if (!layer) continue;
             const el = document.createElement('div'); el.className = 'tour-boundary-label';
             el.textContent = boundaryName(key); labelLayer.append(el);
-            labels.push({el, anchor:layer.getBounds().getCenter()});
+            labels.push({el, layer, weight:style.weight ?? baseStyle.weight});
         }
         layoutLabels();
     }
@@ -133,40 +134,63 @@
         if (!labels.length) return;
         labelLayer.classList.remove('tour-label-stack');
         const rect = map.getContainer().getBoundingClientRect();
-        const margin = 10, gap = 12;
-        const w = Math.min(window.innerWidth, rect.right), h = Math.min(window.innerHeight,rect.bottom);
-        const occupied = [];
+        const margin = 8, gap = 10, boundaryGap = 14;
+        const left = Math.max(0, rect.left), top = Math.max(0, rect.top);
+        const right = Math.min(window.innerWidth, rect.right);
+        const bottom = Math.min(window.innerHeight, rect.bottom);
+        const controls = [];
         for (const element of document.querySelectorAll('.tour-intro-panel, .leaflet-top.leaflet-right, .tour-navigation')) {
             const r = element.getBoundingClientRect();
-            if (r.width && r.height) occupied.push({left:r.left,top:r.top,right:r.right,bottom:r.bottom});
+            if (r.width && r.height) controls.push(r);
         }
-        const overlaps = r => occupied.some(o => r.left < o.right+gap && r.right > o.left-gap && r.top < o.bottom+gap && r.bottom > o.top-gap);
-        for (const {el,anchor} of labels) {
-            el.style.visibility='hidden';
-            const point = map.latLngToContainerPoint(anchor);
-            const width = el.offsetWidth, height = el.offsetHeight;
-            const minX = margin+width/2, maxX = Math.max(minX,w-margin-width/2);
-            const minY = margin+height/2, maxY = Math.max(minY,h-margin-height/2);
-            const clamp = (v,min,max) => Math.max(min,Math.min(max,v));
-            const x0 = clamp(point.x+rect.left,minX,maxX), y0 = clamp(point.y+rect.top,minY,maxY);
-            const candidates = [[x0,y0]];
-            for(let radius=24;radius<=Math.hypot(w,h);radius+=24) {
-                const steps = Math.max(8,Math.ceil(2*Math.PI*radius/32));
-                for(let i=0;i<steps;i++) {
-                    const a=i*2*Math.PI/steps;
-                    candidates.push([clamp(x0+radius*Math.cos(a),minX,maxX),clamp(y0+radius*Math.sin(a),minY,maxY)]);
-                }
+        const intersects = (a,b,g=0) => a.left < b.right+g && a.right > b.left-g && a.top < b.bottom+g && a.bottom > b.top-g;
+        const regions = labels.map(item => {
+            const bounds = item.layer.getBounds();
+            const nw = map.latLngToContainerPoint(bounds.getNorthWest());
+            const se = map.latLngToContainerPoint(bounds.getSouthEast());
+            const stroke = item.weight / 2;
+            return {left: Math.min(nw.x,se.x)+rect.left-stroke, right: Math.max(nw.x,se.x)+rect.left+stroke,
+                top: Math.min(nw.y,se.y)+rect.top-stroke, bottom: Math.max(nw.y,se.y)+rect.top+stroke};
+        });
+        // Prefer the closest clear space above each boundary. If the title panel,
+        // screen edge or another label blocks it, try beside/below rather than overlap.
+        function attempt(compact) {
+            const occupied = [...controls];
+            const missing = [];
+            for (let i=0;i<labels.length;i++) {
+                const {el}=labels[i], region=regions[i];
+                el.classList.toggle('tour-label-compact',compact);
+                el.style.visibility='hidden';
+                const width=el.offsetWidth,height=el.offsetHeight;
+                const minX=left+margin+width/2,maxX=right-margin-width/2;
+                const minY=top+margin+height/2,maxY=bottom-margin-height/2;
+                if (minX>maxX || minY>maxY) {missing.push(i);continue;}
+                const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+                const x0=(region.left+region.right)/2;
+                const y0=region.top-boundaryGap-height/2;
+                const positions=[];
+                const add=(x,y)=>{
+                    x=clamp(x,minX,maxX); y=clamp(y,minY,maxY);
+                    const r={left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
+                    if(intersects(r,region,boundaryGap-0.1)) return;
+                    const above=r.bottom<=region.top-boundaryGap+0.1;
+                    // Above first, then horizontal/vertical proximity; avoid other polygons when possible.
+                    const otherCount=regions.filter((other,j)=>j!==i&&intersects(r,other,3)).length;
+                    positions.push({x,y,r,score:(above?0:10000)+otherCount*2000+Math.hypot(x-x0,y-y0)});
+                };
+                add(x0,y0);
+                for(let y=y0;y>=minY-14;y-=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
+                for(let y=minY;y<=maxY+12;y+=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
+                positions.sort((a,b)=>a.score-b.score);
+                const chosen=positions.find(p=>!occupied.some(o=>intersects(p.r,o,gap)));
+                if(!chosen){missing.push(i);continue;}
+                el.style.left=chosen.x+'px';el.style.top=chosen.y+'px';el.style.visibility='visible';
+                occupied.push(chosen.r);
             }
-            let chosen;
-            for(const [x,y] of candidates) {
-                const r={left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
-                if (!overlaps(r)) {chosen={x,y,r};break;}
-            }
-            // On very small screens, a compact stacked legend is preferable to overlapping labels.
-            if (!chosen) { labelLayer.classList.add('tour-label-stack'); for(const item of labels) item.el.style.visibility='visible'; return; }
-            el.style.left=chosen.x+'px'; el.style.top=chosen.y+'px'; el.style.visibility='visible'; occupied.push(chosen.r);
+            return missing;
         }
-        labelLayer.classList.remove('tour-label-stack');
+        // Smaller labels are used only if necessary on particularly tight screens.
+        if(attempt(false).length) attempt(true);
     }
     function scheduleLabelLayout() {
         if (!labels.length || labelFrame) return;
