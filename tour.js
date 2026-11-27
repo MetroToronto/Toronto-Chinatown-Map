@@ -1,7 +1,7 @@
 // Guided tour: layer visibility, map views, and navigation.
 (() => {
     const HOME = MAP_HOME_CENTER;
-    const OVERVIEW = [43.658485, -79.378555];
+    const OVERVIEW = [43.658485, -79.378695];
     // Stage 3 is the only stage with a separate device-specific overview zoom.
     const STAGE3_ZOOM = MAP_IS_MOBILE ? 12.5 : 14.5;
     const BASE = 'west', CORE = 'core', WARD = 'ward', FIRST = 'first', EAST = 'east', KENSINGTON = 'kensington';
@@ -30,7 +30,7 @@
     const stages = {
         1: {bounds:[[BASE,dashed],[CORE,{}]], stops:[], mask:true},
         2: {bounds:[[WARD,{}],[FIRST,heavy]], stops:[1], popup:1},
-        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill,weight:10}]], stops:[], view:OVERVIEW, zoom:STAGE3_ZOOM, labels:true},
+        3: {bounds:[[BASE,dashed],[CORE,{}],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill,weight:10}]], stops:[], view:OVERVIEW, zoom:STAGE3_ZOOM, labels:true},
         4: {bounds:ordinary, stops:remaining, popup:2},
         5: {bounds:ordinary, stops:remaining, popup:3},
         6: {bounds:[[BASE,dashed],[KENSINGTON,{}]], stops:remaining, popup:4},
@@ -262,7 +262,7 @@
         if (number === 3) map.setMinZoom(Math.min(STAGE3_ZOOM, MAP_HOME_ZOOM));
         map.setView(config.view || HOME,config.zoom || MAP_HOME_ZOOM,{animate:false});
         if(config.mask) showMask();
-        if(config.labels) makeLabels(config.bounds);
+        if(config.labels) makeLabels(config.bounds.filter(([key]) => stage !== 3 || key !== CORE));
         if(config.popup) {
             const entry=getTourStop(config.popup);
             if(entry) openStopPopup(entry.properties,entry.marker,{tour:true,onClose:()=>{goHome();next.focus({preventScroll:true});}});
