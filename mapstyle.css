@@ -90,3 +90,16 @@ html, body {
     .map-info-box { min-width: 0; padding: 5px; font-size: 10px; }
     .tour-intro-panel { width: calc(100% - 150px); }
 }
+
+/* Smaller introduction panel on all devices. */
+.tour-intro-panel { width: min(240px, calc(100% - 175px)); padding: 9px 11px; }
+.tour-intro-panel h1 { font-size: 16px; line-height: 1.18; margin-bottom: 6px; }
+.tour-intro-panel p { font-size: 11px; line-height: 1.4; margin-bottom: 8px; }
+#start-tour-button { min-height: 30px; padding: 6px 10px; font-size: 12px; }
+@media (max-width: 650px) {
+    .tour-intro-panel { padding: 7px 8px; }
+    .tour-intro-panel h1 { font-size: 14px; }
+    .tour-intro-panel p { font-size: 10px; }
+    #start-tour-button { font-size: 12px; }
+}
+@media (max-width: 350px) { .tour-intro-panel { width: min(240px, calc(100% - 150px)); } }
