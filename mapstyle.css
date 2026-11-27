@@ -34,3 +34,59 @@ html, body {
 }
 .map-info-heading { font-weight: bold; margin-bottom: 3px; }
 .map-zoom-value { font-size: 15px; font-weight: bold; }
+
+
+/* Tour introduction panel — top-left corner */
+.tour-intro-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+    width: min(360px, calc(100% - 195px));
+    box-sizing: border-box;
+    padding: 18px;
+    border: 2px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    background: #fff;
+    background-clip: padding-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+    color: #252525;
+    font-family: Arial, sans-serif;
+}
+.tour-intro-panel h1 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.18;
+    font-weight: 700;
+}
+.tour-intro-panel p {
+    margin: 0 0 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+}
+#start-tour-button {
+    display: block;
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 4px;
+    background: #922b2b;
+    color: #fff;
+    font: bold 16px Arial, sans-serif;
+    cursor: pointer;
+}
+#start-tour-button:hover:not(:disabled) { background: #b33b3b; }
+#start-tour-button:focus-visible { outline: 2px solid #922b2b; outline-offset: 3px; }
+#start-tour-button:disabled { opacity: .55; cursor: default; }
+@media (max-width: 650px) {
+    .tour-intro-panel { padding: 11px; }
+    .tour-intro-panel h1 { font-size: 17px; }
+    .tour-intro-panel p { font-size: 12px; line-height: 1.4; margin-bottom: 10px; }
+    #start-tour-button { font-size: 14px; padding: 8px; }
+}
+@media (max-width: 350px) {
+    .map-info-box { min-width: 0; padding: 5px; font-size: 10px; }
+    .tour-intro-panel { width: calc(100% - 150px); }
+}
