@@ -3,11 +3,8 @@
 const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 // Shared neutral view used by the basemap, popups and guided tour.
 const MAP_HOME_CENTER = L.latLng(43.653528, -79.399137);
-// Use fractional zoom steps on phones and small touch screens.
-const MAP_MOBILE_VIEW = window.matchMedia(
-    '(max-width: 768px), (max-width: 1024px) and (pointer: coarse)'
-).matches;
-const MAP_HOME_ZOOM = 14;
+// Use half-step zooms on every device.
+const MAP_HOME_ZOOM = 15.5;
 const MAP_MAX_ZOOM = 18;
 // Double the previous horizontal and vertical centre-point panning limits.
 const MAP_PAN_AREA_MULTIPLIER = 2;
@@ -15,8 +12,8 @@ const map = L.map('map', {
     zoomControl: false,
     minZoom: MAP_HOME_ZOOM,
     maxZoom: MAP_MAX_ZOOM,
-    zoomSnap: MAP_MOBILE_VIEW ? 0.5 : 1,
-    zoomDelta: MAP_MOBILE_VIEW ? 0.5 : 1,
+    zoomSnap: 0.5,
+    zoomDelta: 0.5,
     maxBoundsViscosity: 1
 }).setView(MAP_HOME_CENTER, MAP_HOME_ZOOM);
 
@@ -71,7 +68,7 @@ mapInfoControl.addTo(map);
 // ========================================
 // FREE EXPLORATION LIMITS
 // ========================================
-// At the neutral zoom (14 on all devices), dragging is disabled.
+// At the neutral zoom (15.5 on all devices), dragging is disabled.
 // Above the neutral zoom the centre can move within an expanded rectangle
 // based on the neutral zoom-18 viewport (twice its width and height).
 // Leaflet maxBounds limits the whole viewport, so expand that centre
@@ -120,7 +117,7 @@ function suspendMapExploration({ tour = false } = {}) {
     const token = Symbol(tour ? 'tour' : 'popup');
     mapExplorationLocks.add(token);
     map.setMaxBounds(null);
-    if (tour) map.setMinZoom(Math.min(13, MAP_HOME_ZOOM));
+    if (tour) map.setMinZoom(Math.min(14.5, MAP_HOME_ZOOM));
     return token;
 }
 
