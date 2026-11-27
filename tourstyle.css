@@ -1,0 +1,38 @@
+/* Guided tour controls sit above the popup and its grey backdrop. */
+.tour-navigation {
+    position: fixed; z-index: 3000; bottom: max(18px, env(safe-area-inset-bottom));
+    left: 50%; transform: translateX(-50%);
+    padding: 10px 16px; border-radius: 9px; background: #fff;
+    border: 1px solid #ccc; box-shadow: 0 4px 20px #0004;
+    font-family: Arial,sans-serif; color: #252525; text-align: center;
+}
+.tour-navigation[hidden], .tour-map-shield[hidden], .tour-label-layer[hidden] { display:none !important; }
+.tour-stage-status { font-size: 13px; font-weight: bold; margin: 0 0 7px; }
+.tour-nav-buttons { display:flex; align-items:center; gap:15px; }
+.tour-nav-buttons button { display:grid; place-items:center; border:0; cursor:pointer; height:44px; }
+.tour-prev,.tour-next { background:transparent; width:42px; padding:0; }
+.tour-prev::before,.tour-next::before { content:''; width:0; height:0; border-top:15px solid transparent; border-bottom:15px solid transparent; }
+.tour-prev::before {border-right:22px solid #922b2b;}
+.tour-next::before {border-left:22px solid #922b2b;}
+.tour-reset { background:#922b2b; color:white; padding:0 19px; border-radius:5px; font:bold 16px Arial,sans-serif; white-space:nowrap; }
+.tour-reset:hover {background:#b33b3b;}
+.tour-prev:hover:not(:disabled),.tour-next:hover:not(:disabled) {opacity:.75;}
+.tour-nav-buttons button:disabled {opacity:.3;cursor:default;}
+.tour-nav-buttons button:focus-visible {outline:2px solid #922b2b;outline-offset:3px;}
+.tour-map-shield { position:fixed; inset:0; z-index:1500; background:transparent; touch-action:none; }
+.tour-label-layer { position:fixed; inset:0; z-index:1600; pointer-events:none; }
+.tour-boundary-label {
+    position:absolute; transform:translate(-50%,-50%); box-sizing:border-box;
+    max-width: min(250px, 42vw); padding:11px 17px;
+    background:white; color:#7f2222; border:2px solid #922b2b;
+    border-radius:9px; box-shadow:0 3px 10px #0003;
+    text-align:center; font:bold 19px/1.2 Arial,sans-serif;
+}
+.tour-label-layer.tour-label-stack {inset:auto 10px 115px; display:flex; flex-wrap:wrap; justify-content:center; gap:6px;}
+.tour-label-stack .tour-boundary-label {position:static;transform:none;max-width:100%;font-size:14px;padding:6px 10px;}
+@media(max-width:650px){
+    .tour-navigation {padding:8px 12px;bottom:10px;}
+    .tour-nav-buttons {gap:8px;}
+    .tour-reset {font-size:14px;padding:0 12px;}
+    .tour-boundary-label {font-size:15px;padding:7px 10px;}
+}
