@@ -6,7 +6,7 @@
             "properties": {
                 "StopID": 1,
                 "StopName": "Spadina Avenue & Dundas Street West",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -21,7 +21,7 @@
             "properties": {
                 "StopID": 2,
                 "StopName": "Spadina Avenue & College Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -36,7 +36,7 @@
             "properties": {
                 "StopID": 3,
                 "StopName": "Spadina Avenue & Queen Street West",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -51,7 +51,7 @@
             "properties": {
                 "StopID": 4,
                 "StopName": "Dundas Street West & Huron Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -66,7 +66,7 @@
             "properties": {
                 "StopID": 5,
                 "StopName": "Dundas Street West & Beverley Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -81,7 +81,7 @@
             "properties": {
                 "StopID": 6,
                 "StopName": "Dundas Street West & Augusta Avenue",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -96,7 +96,7 @@
             "properties": {
                 "StopID": 7,
                 "StopName": "Augusta Avenue & Baldwin Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -111,7 +111,7 @@
             "properties": {
                 "StopID": 8,
                 "StopName": "Spadina Avenue & Baldwin Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -126,7 +126,7 @@
             "properties": {
                 "StopID": 9,
                 "StopName": "Spadina Avenue & Sullivan Street",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
@@ -141,7 +141,7 @@
             "properties": {
                 "StopID": 10,
                 "StopName": "Grange Park",
-                "StopDescription": "Chinatown"
+                "StopAddress": "Chinatown"
             },
             "geometry": {
                 "type": "Point",
