@@ -1,8 +1,8 @@
 // Popup content, manual stop-folder indexes, centred modal, and map alignment.
 // Each stop folder has its own index.txt listing photos and note files.
 
-const TOUR_DEFAULT_VIEW = L.latLng(43.653714, -79.399137);
-const TOUR_DEFAULT_ZOOM = 16;
+const TOUR_DEFAULT_VIEW = MAP_HOME_CENTER;
+const TOUR_DEFAULT_ZOOM = MAP_HOME_ZOOM;
 
 let activeStopModal = null;
 let activeStopCleanup = null;
@@ -273,6 +273,7 @@ function openStopPopup(properties, layer, options = {}) {
     let activePath = null;
     const textCache = new Map();
     const fallback = properties.StopText || 'Information about this location will be added here.';
+    const explorationLock = suspendMapExploration();
     const savedInteractionState = disableMapInteractions();
     const inertTargets = [map.getContainer(), document.querySelector('.tour-intro-panel')].filter(Boolean);
     const savedInert = inertTargets.map(el => el.inert);
@@ -482,7 +483,9 @@ function openStopPopup(properties, layer, options = {}) {
         if (!silent && !options.tour) layer?.getElement?.()?.focus?.({ preventScroll: true });
 
         if (restoreDefaultView && !options.tour) {
-            map.setView(TOUR_DEFAULT_VIEW, TOUR_DEFAULT_ZOOM, { animate: true, duration: 0.45 });
+            returnToNeutralAndResume(explorationLock);
+        } else {
+            resumeMapExploration(explorationLock);
         }
         updateStopMarkerPositions();
         if (!silent && options.tour) options.onClose?.();
