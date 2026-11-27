@@ -4,8 +4,8 @@
         {
             "type": "Feature",
             "properties": {
-                "StopName": "St. John's Ward",
-                "StopAddress": "Commonly known as The Ward"
+                "StopName": "The Ward",
+                "StopAddress": "Formally known as St. John's Ward"
             },
             "geometry": {
                 "type": "Polygon",
