@@ -66,3 +66,22 @@
     .stop-address { font-size: 13px; }
     .stop-text { font-size: 16px; }
 }
+
+/* Gallery and grouped historical notes */
+.stop-gallery { flex: 0 0 48%; min-width: 0; }
+.stop-gallery .stop-photo { width: 100%; }
+.stop-photo-counter { text-align: center; color: #666; font-size: 14px; margin-top: 8px; }
+.stop-text { white-space: normal; }
+.stop-section-title { font-size: 22px; line-height: 1.25; margin: 0 0 12px; }
+.stop-notes { margin: 0 0 14px; padding-left: 1.3em; list-style: disc; }
+.stop-notes li { margin-bottom: 8px; }
+.stop-text p { margin: 0 0 12px; }
+@media (max-width: 650px) { .stop-gallery { flex: none; width: 100%; max-width: 400px; align-self: center; } .stop-section-title { font-size: 19px; } }
+
+/* Optional photo navigation dots */
+.stop-photo-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 4px; }
+.stop-photo-dots:empty { display: none; }
+.stop-photo-dot { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.stop-photo-dot::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #bcbcbc; }
+.stop-photo-dot.active::before { background: #922b2b; }
+.stop-photo-dot:focus-visible, .photo-arrow:focus-visible, .stop-close:focus-visible { outline: 2px solid #922b2b; outline-offset: 2px; }
