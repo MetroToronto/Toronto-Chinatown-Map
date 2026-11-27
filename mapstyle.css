@@ -42,9 +42,9 @@ html, body {
     top: 10px;
     left: 10px;
     z-index: 1100;
-    width: min(360px, calc(100% - 195px));
+    width: min(300px, calc(100% - 175px));
     box-sizing: border-box;
-    padding: 18px;
+    padding: 12px;
     border: 2px solid rgba(0, 0, 0, .2);
     border-radius: 6px;
     background: #fff;
@@ -54,37 +54,37 @@ html, body {
     font-family: Arial, sans-serif;
 }
 .tour-intro-panel h1 {
-    margin: 0 0 10px;
-    font-size: 24px;
+    margin: 0 0 8px;
+    font-size: 20px;
     line-height: 1.18;
     font-weight: 700;
 }
 .tour-intro-panel p {
-    margin: 0 0 15px;
-    font-size: 14px;
+    margin: 0 0 10px;
+    font-size: 13px;
     line-height: 1.5;
     color: #555;
 }
 #start-tour-button {
     display: block;
     width: 100%;
-    min-height: 42px;
-    padding: 10px 16px;
+    min-height: 36px;
+    padding: 8px 12px;
     border: 0;
     border-radius: 4px;
     background: #922b2b;
     color: #fff;
-    font: bold 16px Arial, sans-serif;
+    font: bold 14px Arial, sans-serif;
     cursor: pointer;
 }
 #start-tour-button:hover:not(:disabled) { background: #b33b3b; }
 #start-tour-button:focus-visible { outline: 2px solid #922b2b; outline-offset: 3px; }
 #start-tour-button:disabled { opacity: .55; cursor: default; }
 @media (max-width: 650px) {
-    .tour-intro-panel { padding: 11px; }
-    .tour-intro-panel h1 { font-size: 17px; }
+    .tour-intro-panel { padding: 9px; }
+    .tour-intro-panel h1 { font-size: 16px; }
     .tour-intro-panel p { font-size: 12px; line-height: 1.4; margin-bottom: 10px; }
-    #start-tour-button { font-size: 14px; padding: 8px; }
+    #start-tour-button { font-size: 13px; padding: 7px; }
 }
 @media (max-width: 350px) {
     .map-info-box { min-width: 0; padding: 5px; font-size: 10px; }
