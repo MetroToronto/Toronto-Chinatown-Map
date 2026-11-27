@@ -36,3 +36,6 @@
     .tour-reset {font-size:14px;padding:0 12px;}
     .tour-boundary-label {font-size:15px;padding:7px 10px;}
 }
+
+/* Compact fallback for overview labels when available space is tight. */
+.tour-boundary-label.tour-label-compact { max-width:min(190px,40vw); padding:5px 8px; font-size:13px; }
