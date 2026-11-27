@@ -39,3 +39,23 @@
 
 /* Compact fallback for overview labels when available space is tight. */
 .tour-boundary-label.tour-label-compact { max-width:min(190px,40vw); padding:5px 8px; font-size:13px; }
+
+/* Smaller tour navigation and boundary name bubbles. */
+.tour-navigation { padding: 6px 10px; border-radius: 7px; bottom: max(14px, env(safe-area-inset-bottom)); }
+.tour-stage-status { font-size: 11px; margin-bottom: 4px; }
+.tour-nav-buttons { gap: 7px; }
+.tour-nav-buttons button { height: 34px; }
+.tour-prev, .tour-next { width: 34px; }
+.tour-prev::before, .tour-next::before { border-top-width: 10px; border-bottom-width: 10px; }
+.tour-prev::before { border-right-width: 15px; }
+.tour-next::before { border-left-width: 15px; }
+.tour-reset { font-size: 12px; padding: 0 12px; }
+.tour-boundary-label { max-width: min(180px, 42vw); padding: 6px 9px; border-radius: 6px; font-size: 13px; }
+.tour-label-stack .tour-boundary-label, .tour-boundary-label.tour-label-compact { max-width: min(145px, 40vw); padding: 4px 6px; font-size: 11px; }
+@media (max-width: 650px) {
+    .tour-navigation { bottom: max(10px, env(safe-area-inset-bottom)); padding: 5px 8px; }
+    .tour-nav-buttons { gap: 5px; }
+    .tour-reset { font-size: 12px; padding: 0 10px; }
+    .tour-boundary-label { font-size: 12px; padding: 5px 7px; }
+    .tour-boundary-label.tour-label-compact { font-size: 10px; padding: 3px 5px; }
+}
