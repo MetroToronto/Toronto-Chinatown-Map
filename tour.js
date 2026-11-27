@@ -1,7 +1,7 @@
 // Guided tour: layer visibility, map views, and navigation.
 (() => {
     const HOME = MAP_HOME_CENTER;
-    const OVERVIEW = [43.658485, -79.378695];
+    const OVERVIEW = [43.658485, -79.378555];
     // Stage 3 is the only stage with a separate device-specific overview zoom.
     const STAGE3_ZOOM = MAP_IS_MOBILE ? 12.5 : 14.5;
     const BASE = 'west', CORE = 'core', WARD = 'ward', FIRST = 'first', EAST = 'east', KENSINGTON = 'kensington';
