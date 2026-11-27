@@ -28,7 +28,7 @@
     const stages = {
         1: {bounds:[[BASE,dashed],[CORE,{}]], stops:[], mask:true},
         2: {bounds:[[WARD,{}],[FIRST,heavy]], stops:[1], popup:1},
-        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill}]], stops:[], view:OVERVIEW, zoom:13, labels:true},
+        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill}]], stops:[], view:OVERVIEW, zoom:14.5, labels:true},
         4: {bounds:ordinary, stops:remaining, popup:2},
         5: {bounds:ordinary, stops:remaining, popup:3},
         6: {bounds:[[BASE,dashed],[KENSINGTON,{}]], stops:remaining, popup:4},
@@ -134,7 +134,7 @@
         if (!labels.length) return;
         labelLayer.classList.remove('tour-label-stack');
         const rect = map.getContainer().getBoundingClientRect();
-        const margin = 8, gap = 10, boundaryGap = 14;
+        const margin = 8, gap = 7, boundaryGap = 10;
         const left = Math.max(0, rect.left), top = Math.max(0, rect.top);
         const right = Math.min(window.innerWidth, rect.right);
         const bottom = Math.min(window.innerHeight, rect.bottom);
