@@ -41,10 +41,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(1000px, calc(100vw - 176px));
+    width: min(850px, calc(100vw - 176px));
     max-height: calc(100dvh - 48px);
     box-sizing: border-box;
-    padding: 30px;
+    padding: 22px;
     border-radius: 12px;
     background: white;
     box-shadow: 0 14px 52px rgba(0, 0, 0, 0.34);
@@ -102,24 +102,24 @@
     width: 100%;
 }
 .stop-popup-header {
-    padding: 0 20px 15px 0;
-    margin-bottom: 18px;
+    padding: 0 20px 12px 0;
+    margin-bottom: 14px;
     border-bottom: 1px solid #ccc;
 }
 .stop-title {
-    font-size: 29px;
+    font-size: 25px;
     font-weight: 700;
     line-height: 1.2;
     margin: 0 0 6px;
 }
 .stop-address {
-    font-size: 17px;
+    font-size: 15px;
     color: #666;
 }
 .stop-popup-body {
     display: flex;
     align-items: flex-start;
-    gap: 26px;
+    gap: 18px;
 }
 
 /* Gallery */
@@ -241,14 +241,14 @@
 .stop-text {
     flex: 1;
     min-width: 0;
-    font-size: 21px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.5;
     text-align: left;
     white-space: normal;
     overflow-wrap: anywhere;
 }
 .stop-section-title {
-    font-size: 24px;
+    font-size: 21px;
     line-height: 1.25;
     margin: 0 0 12px;
 }
@@ -258,7 +258,7 @@
     list-style: disc;
 }
 .stop-notes li {
-    margin-bottom: 10px;
+    margin-bottom: 7px;
 }
 .stop-text p {
     margin: 0 0 12px;
@@ -273,8 +273,8 @@
 
 @media (max-width: 850px) {
     .stop-dialog {
-        width: calc(100vw - 32px);
-        padding: 22px;
+        width: min(560px, calc(100vw - 32px));
+        padding: 16px;
     }
     .stop-pointer,
     .stop-marker-spotlight {
@@ -286,20 +286,20 @@
     .stop-gallery {
         flex: none;
         width: 100%;
-        max-width: 460px;
+        max-width: 340px;
         align-self: center;
     }
     .stop-title {
-        font-size: 24px;
+        font-size: 21px;
     }
     .stop-address {
         font-size: 15px;
     }
     .stop-text {
-        font-size: 18px;
+        font-size: 16px;
     }
     .stop-section-title {
-        font-size: 21px;
+        font-size: 18px;
     }
 }
 
