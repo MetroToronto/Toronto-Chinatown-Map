@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toronto Chinatown Map</title>
+    <title>Toronto Chinatown Community Web Tour</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="./mapstyle.css">
     <link rel="stylesheet" href="./popupstyle.css">
+    <link rel="stylesheet" href="./tourstyle.css">
 </head>
 <body>
     <div id="map"></div>
+
+    <!-- Tour introduction panel -->
+    <section class="tour-intro-panel" aria-labelledby="tour-title">
+        <h1 id="tour-title">Toronto Chinatown Community Web Tour</h1>
+        <p>Created by Ian Snider and Zain Khurram for PLAN 333: Neighbourhoods and Community Planning at the University of Waterloo.</p>
+        <button id="start-tour-button" type="button" disabled>Start Tour</button>
+    </section>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="./basemap.js"></script>
     <script src="./popup.js"></script>
     <script src="./stoplocations.js"></script>
+    <script src="./tour.js"></script>
 </body>
 </html>
