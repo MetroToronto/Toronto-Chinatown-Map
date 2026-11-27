@@ -105,3 +105,28 @@ fetch('./geojson-data/Chinatown_StopLocations.geojson')
         }).addTo(map);
     })
     .catch(error => console.error('Error loading Chinatown stops:', error));
+
+// ========================================
+// CHINATOWN BOUNDARY
+// ========================================
+fetch('./geojson-data/Chinatown_Boundary.geojson')
+    .then(response => {
+        if (!response.ok) throw new Error(`Unable to load boundary: ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        L.geoJSON(data, {
+            interactive: false,
+            style: {
+                color: '#922b2b',
+                weight: 8,
+                opacity: 1,
+                dashArray: '14 12',
+                lineCap: 'round',
+                lineJoin: 'round',
+                fill: false,
+                fillOpacity: 0
+            }
+        }).addTo(map).bringToBack();
+    })
+    .catch(error => console.error('Error loading Chinatown boundary:', error));
