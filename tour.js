@@ -28,7 +28,7 @@
     const stages = {
         1: {bounds:[[BASE,dashed],[CORE,{}]], stops:[], mask:true},
         2: {bounds:[[WARD,{}],[FIRST,heavy]], stops:[1], popup:1},
-        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill}]], stops:[], view:OVERVIEW, zoom:MAP_STAGE3_ZOOM, labels:true},
+        3: {bounds:[[BASE,lightFill],[WARD,lightFill],[EAST,lightFill],[FIRST,{...extraHeavy,...darkFill,weight:12}]], stops:[], view:OVERVIEW, zoom:MAP_STAGE3_ZOOM, labels:true},
         4: {bounds:ordinary, stops:remaining, popup:2},
         5: {bounds:ordinary, stops:remaining, popup:3},
         6: {bounds:[[BASE,dashed],[KENSINGTON,{}]], stops:remaining, popup:4},
