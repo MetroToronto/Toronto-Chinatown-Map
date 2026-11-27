@@ -5,7 +5,7 @@
             "type": "Feature",
             "properties": {
                 "StopName": "East Chinatown",
-                "StopDescription": "Old Toronto"
+                "StopAddress": "Old Toronto"
             },
             "geometry": {
                 "type": "Polygon",
