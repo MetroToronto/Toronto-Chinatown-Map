@@ -222,6 +222,12 @@ function openStopPopup(properties, layer, options = {}) {
                         <div class="stop-photo">
                             <img class="stop-photo-image" alt="" hidden>
                             <span class="photo-placeholder">Photo Placeholder</span>
+                            <button type="button" class="stop-photo-expand" aria-label="Enlarge photograph" title="Enlarge photograph" disabled>
+                                <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M8 3H3v5 M16 3h5v5 M21 16v5h-5 M8 21H3v-5"/>
+                                    <path d="M3 3l6 6 M21 3l-6 6 M21 21l-6-6 M3 21l6-6"/>
+                                </svg>
+                            </button>
                             <button type="button" class="photo-arrow photo-arrow-left" aria-label="Previous photo" disabled></button>
                             <button type="button" class="photo-arrow photo-arrow-right" aria-label="Next photo" disabled></button>
                         </div>
@@ -248,6 +254,7 @@ function openStopPopup(properties, layer, options = {}) {
     const counter = modal.querySelector('.stop-photo-counter');
     const dots = modal.querySelector('.stop-photo-dots');
     const closeButton = modal.querySelector('.stop-close');
+    const expandButton = modal.querySelector('.stop-photo-expand');
 
     title.textContent = properties.StopName || 'Chinatown Stop';
     address.textContent = properties.StopAddress || properties.StopDescription || '';
@@ -271,6 +278,66 @@ function openStopPopup(properties, layer, options = {}) {
     const savedInert = inertTargets.map(el => el.inert);
     inertTargets.forEach(el => { el.inert = true; });
 
+    // A native modal dialog opens above the stop popup and tour navigation.
+    // It makes the rest of the page inert without changing map or tour state.
+    let photoViewer = null;
+
+    function closePhotoViewer(restoreFocus = true) {
+        if (!photoViewer) return;
+        const viewer = photoViewer;
+        photoViewer = null;
+        if (viewer.open) viewer.close();
+        viewer.remove();
+        if (restoreFocus && modal.isConnected) {
+            expandButton.focus({ preventScroll: true });
+        }
+    }
+
+    function openPhotoViewer() {
+        if (photoViewer || expandButton.disabled || img.hidden || !img.naturalWidth) return;
+        const photo = photos[current];
+        if (!photo) return;
+        const viewer = document.createElement('dialog');
+        viewer.className = 'stop-image-viewer';
+        viewer.setAttribute('aria-label', img.alt || 'Enlarged photograph');
+        viewer.innerHTML = `<div class="stop-image-viewer-content">
+            <button type="button" class="stop-image-viewer-close" aria-label="Close enlarged photograph" title="Close photograph">&times;</button>
+            <img class="stop-image-viewer-image" alt="">
+        </div>`;
+        const largeImage = viewer.querySelector('img');
+        const exit = viewer.querySelector('button');
+        largeImage.alt = img.alt;
+        largeImage.src = photo.path;
+        exit.addEventListener('click', () => closePhotoViewer());
+        viewer.addEventListener('cancel', event => {
+            event.preventDefault();
+            closePhotoViewer();
+        });
+        viewer.addEventListener('close', () => {
+            if (photoViewer === viewer) closePhotoViewer();
+        });
+        // A backdrop click only closes the image viewer, never the stop popup.
+        viewer.addEventListener('click', event => {
+            if (event.target !== viewer) return;
+            const rect = viewer.getBoundingClientRect();
+            if (event.clientX < rect.left || event.clientX > rect.right ||
+                event.clientY < rect.top || event.clientY > rect.bottom) closePhotoViewer();
+        });
+        // Prevent gallery/tour key handlers from reacting to viewer controls.
+        viewer.addEventListener('keydown', event => {
+            event.stopPropagation();
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closePhotoViewer();
+            }
+        });
+        photoViewer = viewer;
+        document.body.append(viewer);
+        viewer.showModal();
+        exit.focus({ preventScroll: true });
+    }
+    expandButton.addEventListener('click', openPhotoViewer);
+
     function update() {
         const photo = photos[current];
         const count = photos.length || sections.length;
@@ -289,6 +356,7 @@ function openStopPopup(properties, layer, options = {}) {
 
         img.hidden = true;
         placeholder.hidden = false;
+        expandButton.disabled = true;
 
         if (photo) {
             img.alt = `${properties.StopName || 'Stop'} — Photo ${photo.number}`;
@@ -296,6 +364,7 @@ function openStopPopup(properties, layer, options = {}) {
             if (img.complete && img.naturalWidth) {
                 img.hidden = false;
                 placeholder.hidden = true;
+                expandButton.disabled = false;
             }
         } else {
             img.removeAttribute('src');
@@ -336,6 +405,7 @@ function openStopPopup(properties, layer, options = {}) {
     }
 
     function onKeyDown(event) {
+        if (photoViewer) return;
         if (event.key === 'Escape') {
             event.preventDefault();
             cleanup({ restoreDefaultView: true });
@@ -381,17 +451,21 @@ function openStopPopup(properties, layer, options = {}) {
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('resize', onResize);
     img.addEventListener('load', () => {
+        if (!photos[current] || !img.naturalWidth) return;
         img.hidden = false;
         placeholder.hidden = true;
+        expandButton.disabled = false;
     });
     img.addEventListener('error', () => {
         img.hidden = true;
         placeholder.hidden = false;
+        expandButton.disabled = true;
     });
 
     function cleanup({ restoreDefaultView = true, silent = false } = {}) {
         if (!modal.isConnected) return;
 
+        closePhotoViewer(false);
         revision++;
         observer.disconnect();
         map.off('move zoom moveend zoomend', syncSpotlight);
