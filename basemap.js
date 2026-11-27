@@ -9,6 +9,8 @@ const MAP_MOBILE_VIEW = window.matchMedia(
 ).matches;
 const MAP_HOME_ZOOM = MAP_MOBILE_VIEW ? 14.5 : 16;
 const MAP_MAX_ZOOM = 18;
+// Double the previous horizontal and vertical centre-point panning limits.
+const MAP_PAN_AREA_MULTIPLIER = 2;
 const map = L.map('map', {
     zoomControl: false,
     minZoom: MAP_HOME_ZOOM,
@@ -70,8 +72,8 @@ mapInfoControl.addTo(map);
 // FREE EXPLORATION LIMITS
 // ========================================
 // At the neutral zoom (14.5 on mobile, 16 on desktop), dragging is disabled.
-// Above the neutral zoom the centre can move within the geographic rectangle visible
-// at zoom 18 when centred on MAP_HOME_CENTER (current viewport size).
+// Above the neutral zoom the centre can move within an expanded rectangle
+// based on the neutral zoom-18 viewport (twice its width and height).
 // Leaflet maxBounds limits the whole viewport, so expand that centre
 // rectangle by half of the current viewport in projected pixel space.
 // Popups and the tour temporarily suspend these limits for their own pans.
@@ -83,7 +85,7 @@ function getExplorationBounds(zoom) {
     const centre = map.project(MAP_HOME_CENTER, zoom);
     const allowed = zoom <= MAP_HOME_ZOOM
         ? L.point(0, 0)
-        : half.multiplyBy(map.getZoomScale(zoom, MAP_MAX_ZOOM));
+        : half.multiplyBy(map.getZoomScale(zoom, MAP_MAX_ZOOM) * MAP_PAN_AREA_MULTIPLIER);
     const extent = allowed.add(half);
     return L.latLngBounds(
         map.unproject(centre.subtract(extent), zoom),
