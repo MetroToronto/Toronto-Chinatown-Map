@@ -2,11 +2,10 @@
 // CARTO basemap key (restrict to your website in CARTO).
 const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 // Shared neutral view used by the basemap, popups and guided tour.
-const MAP_HOME_CENTER = L.latLng(43.653328, -79.399137);
+const MAP_HOME_CENTER = L.latLng(43.653228, -79.399137);
 // Select the map layout at page load (including phones in landscape).
 const MAP_IS_MOBILE = window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1024px)').matches;
 const MAP_HOME_ZOOM = MAP_IS_MOBILE ? 14.75 : 15.5;
-const MAP_STAGE3_ZOOM = MAP_IS_MOBILE ? 12.5 : 14.5;
 const MAP_MAX_ZOOM = 18;
 // Double the previous horizontal and vertical centre-point panning limits.
 const MAP_PAN_AREA_MULTIPLIER = 2;
@@ -115,11 +114,11 @@ function refreshMapExplorationLimits() {
 
 // Each popup receives its own token. The tour holds a separate token,
 // so closing a popup inside the tour never re-enables free navigation.
-function suspendMapExploration({ tour = false } = {}) {
+function suspendMapExploration({ tour = false, minZoom = MAP_HOME_ZOOM } = {}) {
     const token = Symbol(tour ? 'tour' : 'popup');
     mapExplorationLocks.add(token);
     map.setMaxBounds(null);
-    if (tour) map.setMinZoom(Math.min(MAP_STAGE3_ZOOM, MAP_HOME_ZOOM));
+    if (tour) map.setMinZoom(Math.min(minZoom, MAP_HOME_ZOOM));
     return token;
 }
 
