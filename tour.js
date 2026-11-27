@@ -17,10 +17,10 @@
     let stage = 0, savedInteractions = null, mask = null, labels = [], labelFrame = 0;
     let tourExplorationLock = null;
     const startButton = document.getElementById('start-tour-button');
-    const baseStyle = {color:'#922b2b', weight:8, opacity:1, dashArray:null, lineCap:'round', lineJoin:'round', fill:false, fillOpacity:0};
+    const baseStyle = {color:'#922b2b', weight:6, opacity:1, dashArray:null, lineCap:'round', lineJoin:'round', fill:false, fillOpacity:0};
     const dashed = {dashArray:'14 12'};
-    const heavy = {weight:11};
-    const extraHeavy = {weight:16, color:'#6e1919'};
+    const heavy = {weight:9};
+    const extraHeavy = {weight:13, color:'#6e1919'};
     const lightFill = {fill:true, fillColor:'#e16a6a', fillOpacity:0.32};
     const darkFill = {fill:true, fillColor:'#761b1b', fillOpacity:0.72};
     const ordinary = [[BASE,dashed],[CORE,{}]];
@@ -126,7 +126,8 @@
             const layer = layers.get(key); if (!layer) continue;
             const el = document.createElement('div'); el.className = 'tour-boundary-label';
             el.textContent = boundaryName(key); labelLayer.append(el);
-            labels.push({el, layer, weight:style.weight ?? baseStyle.weight});
+            labels.push({el, layer, key, weight:style.weight ?? baseStyle.weight,
+                placement: stage === 3 && key === FIRST ? 'below' : stage === 7 && key === KENSINGTON ? 'inside' : 'above'});
         }
         layoutLabels();
     }
@@ -152,13 +153,47 @@
             return {left: Math.min(nw.x,se.x)+rect.left-stroke, right: Math.max(nw.x,se.x)+rect.left+stroke,
                 top: Math.min(nw.y,se.y)+rect.top-stroke, bottom: Math.max(nw.y,se.y)+rect.top+stroke};
         });
-        // Prefer the closest clear space above each boundary. If the title panel,
-        // screen edge or another label blocks it, try beside/below rather than overlap.
+        // Project the actual polygon rings, not just the bounding box, for interior labels.
+        const projected = labels.map(item => geometryList(dataByKey.get(item.key)).map(polygon =>
+            polygon.map(ring => ring.map(([lng,lat]) => {
+                const p = map.latLngToContainerPoint([lat,lng]);
+                return {x:p.x+rect.left,y:p.y+rect.top};
+            }))));
+        function inRing(p,ring) {
+            let inside=false;
+            for(let i=0,j=ring.length-1;i<ring.length;j=i++) {
+                const a=ring[i],b=ring[j];
+                if ((a.y>p.y)!==(b.y>p.y) && p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x) inside=!inside;
+            }
+            return inside;
+        }
+        // Liang-Barsky segment/rectangle test, including touches.
+        function segmentHitsRect(a,b,r) {
+            const dx=b.x-a.x,dy=b.y-a.y;
+            let lo=0,hi=1;
+            for(const [p,q] of [[-dx,a.x-r.left],[dx,r.right-a.x],[-dy,a.y-r.top],[dy,r.bottom-a.y]]) {
+                if(p===0) {if(q<0)return false;continue;}
+                const t=q/p;
+                if(p<0)lo=Math.max(lo,t);else hi=Math.min(hi,t);
+                if(lo>hi)return false;
+            }
+            return true;
+        }
+        function insidePolygon(r,polygons,padding) {
+            const expanded={left:r.left-padding,right:r.right+padding,top:r.top-padding,bottom:r.bottom+padding};
+            const corners=[{x:expanded.left,y:expanded.top},{x:expanded.right,y:expanded.top},
+                {x:expanded.right,y:expanded.bottom},{x:expanded.left,y:expanded.bottom}];
+            return polygons.some(rings => rings.length &&
+                corners.every(p=>inRing(p,rings[0])&&!rings.slice(1).some(ring=>inRing(p,ring))) &&
+                !rings.some(ring=>ring.some((a,j)=>segmentHitsRect(a,ring[(j+1)%ring.length],expanded))));
+        }
+        // Ordinary labels prefer above; First Chinatown stays below, and
+        // Kensington must fit inside its own polygon without touching its outline.
         function attempt(compact) {
             const occupied = [...controls];
             const missing = [];
             for (let i=0;i<labels.length;i++) {
-                const {el}=labels[i], region=regions[i];
+                const {el, placement, weight}=labels[i], region=regions[i];
                 el.classList.toggle('tour-label-compact',compact);
                 el.style.visibility='hidden';
                 const width=el.offsetWidth,height=el.offsetHeight;
@@ -167,20 +202,31 @@
                 if (minX>maxX || minY>maxY) {missing.push(i);continue;}
                 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
                 const x0=(region.left+region.right)/2;
-                const y0=region.top-boundaryGap-height/2;
+                const y0=placement==='inside'?(region.top+region.bottom)/2:
+                    placement==='below'?region.bottom+boundaryGap+height/2:region.top-boundaryGap-height/2;
                 const positions=[];
                 const add=(x,y)=>{
                     x=clamp(x,minX,maxX); y=clamp(y,minY,maxY);
                     const r={left:x-width/2,right:x+width/2,top:y-height/2,bottom:y+height/2};
-                    if(intersects(r,region,boundaryGap-0.1)) return;
-                    const above=r.bottom<=region.top-boundaryGap+0.1;
-                    // Above first, then horizontal/vertical proximity; avoid other polygons when possible.
+                    if(placement==='inside') {
+                        if(!insidePolygon(r,projected[i],weight/2+4))return;
+                    } else {
+                        if(intersects(r,region,boundaryGap-0.1))return;
+                        if(placement==='below' && r.top<region.bottom+boundaryGap-0.1)return;
+                    }
+                    const preferred=placement!=='above'||r.bottom<=region.top-boundaryGap+0.1;
                     const otherCount=regions.filter((other,j)=>j!==i&&intersects(r,other,3)).length;
-                    positions.push({x,y,r,score:(above?0:10000)+otherCount*2000+Math.hypot(x-x0,y-y0)});
+                    positions.push({x,y,r,score:(preferred?0:10000)+otherCount*2000+Math.hypot(x-x0,y-y0)});
                 };
                 add(x0,y0);
-                for(let y=y0;y>=minY-14;y-=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
-                for(let y=minY;y<=maxY+12;y+=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
+                if(placement==='inside') {
+                    const step=4;
+                    for(let y=Math.max(minY,region.top);y<=Math.min(maxY,region.bottom)+step;y+=step)
+                        for(let x=Math.max(minX,region.left);x<=Math.min(maxX,region.right)+step;x+=step) add(x,y);
+                } else {
+                    if(placement==='above') for(let y=y0;y>=minY-14;y-=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
+                    for(let y=minY;y<=maxY+12;y+=12) for(let x=minX;x<=maxX+12;x+=12) add(x,y);
+                }
                 positions.sort((a,b)=>a.score-b.score);
                 const chosen=positions.find(p=>!occupied.some(o=>intersects(p.r,o,gap)));
                 if(!chosen){missing.push(i);continue;}
