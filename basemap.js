@@ -1,6 +1,6 @@
 // MAP INITIALIZATION — CARTO Positron
-// Insert your existing restricted CARTO basemap key.
-const cartoApiKey = 'YOUR_API_KEY';
+// CARTO basemap key (restrict to your website in CARTO).
+const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 const map = L.map('map', { zoomControl: false }).setView([43.6531, -79.3983], 16);
 
 L.tileLayer('https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=' + encodeURIComponent(cartoApiKey), {
