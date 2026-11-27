@@ -1,7 +1,7 @@
 // ========================================
 // NUMBERED MARKERS: SIZE AND COLLISION BUFFER
 // ========================================
-const stopMarkerSize = 44;
+const stopMarkerSize = 40;
 const stopMarkerGap = 8;
 const stopMarkerSpacing = stopMarkerSize + stopMarkerGap + 2;
 const stopMarkerEntries = [];
