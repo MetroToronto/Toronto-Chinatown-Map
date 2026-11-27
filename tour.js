@@ -1,6 +1,6 @@
 // Guided tour: layer visibility, map views, and navigation.
 (() => {
-    const HOME = [43.653714, -79.399137];
+    const HOME = MAP_HOME_CENTER;
     const OVERVIEW = [43.658185, -79.378195];
     const BASE = 'west', CORE = 'core', WARD = 'ward', FIRST = 'first', EAST = 'east', KENSINGTON = 'kensington';
     const files = {
@@ -15,6 +15,7 @@
     const layers = new Map();
     const dataByKey = new Map();
     let stage = 0, savedInteractions = null, mask = null, labels = [], labelFrame = 0;
+    let tourExplorationLock = null;
     const startButton = document.getElementById('start-tour-button');
     const baseStyle = {color:'#922b2b', weight:8, opacity:1, dashArray:null, lineCap:'round', lineJoin:'round', fill:false, fillOpacity:0};
     const dashed = {dashArray:'14 12'};
@@ -173,7 +174,7 @@
     }
     map.on('move zoom moveend zoomend resize',scheduleLabelLayout);
     window.addEventListener('resize',scheduleLabelLayout);
-    function goHome() { map.stop(); map.setView(HOME,16,{animate:false}); }
+    function goHome() { map.stop(); map.setView(HOME,MAP_HOME_ZOOM,{animate:false}); }
     function applyStage(number) {
         if (number===11) {endTour();return;}
         const config=stages[number]; if(!config) return;
@@ -185,7 +186,7 @@
         status.textContent=`Stage ${number} of 11`;
         showBoundaries(config.bounds);
         showTourStops(config.stops);
-        map.setView(config.view || HOME,config.zoom || 16,{animate:false});
+        map.setView(config.view || HOME,config.zoom || MAP_HOME_ZOOM,{animate:false});
         if(config.mask) showMask();
         if(config.labels) makeLabels(config.bounds);
         if(config.popup) {
@@ -196,6 +197,7 @@
     }
     function startTour() {
         if(stage) return;
+        tourExplorationLock = suspendMapExploration({tour:true});
         closeActiveStopModal({restoreDefaultView:false,silent:true});
         savedInteractions=disableMapInteractions();
         document.body.classList.add('tour-running');
@@ -210,6 +212,8 @@
         clearMask(); clearLabels(); stage=0;
         showBoundaries(ordinary); showTourStops(); goHome();
         if(savedInteractions) setMapInteractionState(savedInteractions);
+        resumeMapExploration(tourExplorationLock);
+        tourExplorationLock = null;
         savedInteractions=null; nav.hidden=true; shield.hidden=true;
         map.getContainer().inert=false;
         document.querySelector('.tour-intro-panel').inert=false;
