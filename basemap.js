@@ -2,7 +2,7 @@
 // CARTO basemap key (restrict to your website in CARTO).
 const cartoApiKey = 'cb1_5g50_1_9d668e313ba9e65bee3ef1a7';
 // Shared neutral view used by the basemap, popups and guided tour.
-const MAP_HOME_CENTER = L.latLng(43.653828, -79.399137);
+const MAP_HOME_CENTER = L.latLng(43.653528, -79.399137);
 // Select the map layout at page load (including phones in landscape).
 const MAP_IS_MOBILE = window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1024px)').matches;
 const MAP_HOME_ZOOM = MAP_IS_MOBILE ? 14.75 : 15.5;
